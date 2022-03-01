@@ -8,12 +8,9 @@ var userModel = require('../models/users')
 /* SIGN UP pour enregistrement New User*/
 
 router.post('/sign-up', async function(req, res) {
-  var hashPassword = bcrypt.hashSync(req.body.passwordFromFront, 10);
-  var token = '';
 
   var error = []
   var result = false
-  var saveUser = null
 
   const data = await userModel.findOne({
     email: req.body.emailFromFront
@@ -31,6 +28,7 @@ router.post('/sign-up', async function(req, res) {
   }
 
   if(error.length == 0) {
+    var hashPassword = bcrypt.hashSync(req.body.passwordFromFront, 10);
     var newUser = new userModel ({
       username: req.body.usernameFromFront,
       email: req.body.emailFromFront,
@@ -39,17 +37,33 @@ router.post('/sign-up', async function(req, res) {
       score: 0,
     })
 
-    saveUser = await newUser.save()
-
-    if(saveUser) {
+    var saveUser = await newUser.save()
       result = true;
-      token = saveUser.token
-    }
   }
 
-  res.json({ result, saveUser, error, token })
+  res.json({ result, saveUser, error })
 });
 
+/* SIGN IN pour connexion User*/
+
+router.post('/sign-in', async function(req,res) {
+  let result = false;
+  let error = [];
+  let token = ''
+
+  var user = await userModel.findOne({ email: req.body.emailFromFront })
+  if (user) {
+    if(bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
+      result = true
+      token = user.token
+    } else {
+      error.push("Tu t'es trompé de Mot de Passe !");
+    }
+  } else {
+    error.push("Joueur non existant, inscris toi vite !");
+  }
+  res.json({result, error, user, token})
+});
 
 
 module.exports = router;
