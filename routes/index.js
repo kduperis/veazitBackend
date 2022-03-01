@@ -52,6 +52,10 @@ router.post('/sign-in', async function(req,res) {
   let token = ''
 
   var user = await userModel.findOne({ email: req.body.emailFromFront })
+
+  console.log(req.body.passwordFromFront+ 'test')
+  console.log(req.body.emailFromFront+ 'test')
+  
   if (user) {
     if(bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
       result = true
@@ -60,9 +64,14 @@ router.post('/sign-in', async function(req,res) {
       error.push("Tu t'es trompé de Mot de Passe !");
     }
   } else {
-    error.push("Joueur non existant, inscris toi vite !");
+      if(!req.body.passwordFromFront || !req.body.emailFromFront){
+        error.push('Merci de remplir tous les champs');
+      }else{
+        error.push("Joueur non existant, inscris toi vite !");
+      }
+    
   }
-  res.json({result, error, user, token})
+  res.json({result, user, error })
 });
 
 
