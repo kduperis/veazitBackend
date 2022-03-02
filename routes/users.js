@@ -62,9 +62,6 @@ router.post('/sign-in', async function(req,res) {
   let token = ''
 
   var user = await userModel.findOne({ email: req.body.emailFromFront })
-
-  console.log(req.body.passwordFromFront+ 'test')
-  console.log(req.body.emailFromFront+ 'test')
   
   if (user) {
     if(bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
