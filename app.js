@@ -1,3 +1,4 @@
+require('dotenv').config();
 var mongoose = require('./models/connection')
 var express = require('express');
 var path = require('path');
