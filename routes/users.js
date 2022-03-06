@@ -4,6 +4,7 @@ var bcrypt = require('bcrypt');
 var uid2 = require('uid2');
 
 var userModel = require('../models/users')
+var badgeModel = require('../models/badges')
 
 
 
@@ -14,6 +15,29 @@ router.get("/best-users", async function (req, res) {
 
   res.json({ bestUserName })
 })
+
+router.post("/badges", async function (req, res) {
+
+  var newBadge = await new badgeModel({
+    title: req.body.title,
+    description: req.body.description,
+    img: req.body.img
+  })
+
+  var saveBadge = await newBadge.save()
+
+
+  res.json(saveBadge)
+})
+
+router.get("/badgesData", async function (req, res) {
+  const badgeCollection = await badgeModel.find()
+
+  res.json({ badgeCollection })
+})
+
+
+
 
 /* SIGN UP pour enregistrement New User*/
 
