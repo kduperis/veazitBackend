@@ -2,11 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 var badgeModel = require('../models/badges')
+var userModel = require('../models/users')
 
 router.get("/best-users", async function (req, res) {
   const bestUserName = await userModel.find().select("username").select("score").select("avatar")
-
-
 
   res.json({ bestUserName })
 })
