@@ -24,7 +24,7 @@ router.put('/best-users', async function (req, res) {
     user.score = user.score + parseInt(req.body.score)
     let userSaved = await user.save()
     console.log(req.body.score);
-    res.json({score: userSaved.score, result: true})
+    res.json({userSaved, result: true})
   }
 })
 
