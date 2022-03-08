@@ -15,6 +15,19 @@ router.get("/best-users", async function (req, res) {
   }
 })
 
+//Route pour actualiser le score de l'User
+router.put('/best-users', async function (req, res) {
+  const user = await userModel.findOne({ token: req.body.token})
+  if(user == null) {
+    res.json( {user, result: false} )
+  } else {
+    user.score = user.score + parseInt(req.body.score)
+    let userSaved = await user.save()
+    console.log(req.body.score);
+    res.json({score: userSaved.score, result: true})
+  }
+})
+
 //Route pour Alimenter la base de données
 router.post("/badges", async function (req, res) {
 
@@ -25,7 +38,6 @@ router.post("/badges", async function (req, res) {
   })
 
   var saveBadge = await newBadge.save()
-
 
   res.json(saveBadge)
 })
