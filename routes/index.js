@@ -6,8 +6,13 @@ var userModel = require('../models/users')
 
 router.get("/best-users", async function (req, res) {
   const bestUserName = await userModel.find().select("username").select("score").select("avatar")
+  const user = await userModel.findOne({ token: req.query.token })
 
-  res.json({ bestUserName })
+  if (user == null) {
+    res.json({ bestUserName, result: false })
+  } else {
+    res.json({ bestUserName, user, result: true })
+  }
 })
 
 //Route pour Alimenter la base de données
