@@ -4,7 +4,7 @@ badgeSchema = mongoose.Schema({
     title: String,
     description: String,
     img: String,
-    score: Number,
+    condition: Number,
 })
 
 var badgeModel = mongoose.model('badges', badgeSchema)
