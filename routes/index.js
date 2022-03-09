@@ -48,6 +48,20 @@ router.get("/badgesData", async function (req, res) {
   res.json({ badgeCollection })
 })
 
+router.put('/update-theme', async function (req, res) {
+  var token = req.body.token
+  var apparence = req.body.apparence
+  var user = await userModel.findOne({ token: token})
+  
+  if(user == null) {
+    res.json( { result: false} )
+  } else {
+
+    await userModel.updateOne({token:token},{ apparence:apparence });
+
+    res.json({result: true})
+  }
+})
 
 
 
