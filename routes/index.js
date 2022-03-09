@@ -15,16 +15,27 @@ router.get("/best-users", async function (req, res) {
   }
 })
 
+router.get("/userScore", async function (req, res) {
+  const userScore = await userModel.findOne().select("score").select("username")
+  const user = await userModel.findOne({ token: req.query.token })
+
+  if (user == null) {
+    res.json({ userScore, result: false })
+  } else {
+    res.json({ user, result: true })
+  }
+})
+
 //Route pour actualiser le score de l'User
 router.put('/best-users', async function (req, res) {
-  const user = await userModel.findOne({ token: req.body.token})
-  if(user == null) {
-    res.json( {user, result: false} )
+  const user = await userModel.findOne({ token: req.body.token })
+  if (user == null) {
+    res.json({ user, result: false })
   } else {
     user.score = user.score + parseInt(req.body.score)
     let userSaved = await user.save()
-    console.log(req.body.score);
-    res.json({userSaved, result: true})
+
+    res.json({ userSaved, result: true })
   }
 })
 
