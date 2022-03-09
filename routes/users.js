@@ -39,6 +39,7 @@ router.post('/sign-up', async function (req, res) {
         token: uid2(32),
         score: 0,
         googleConnect: false,
+        avatar: 'https://res.cloudinary.com/dualrskkc/image/upload/v1646813911/veazit/unknown_lgsmmw.jpg'
       })
 
       var saveUser = await newUser.save()
