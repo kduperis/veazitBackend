@@ -38,6 +38,7 @@ router.post('/sign-up', async function (req, res) {
         password: hashPassword,
         token: uid2(32),
         score: 0,
+        googleConnect:false,
       })
 
       var saveUser = await newUser.save()
@@ -54,34 +55,71 @@ router.post('/sign-up', async function (req, res) {
   res.json({ result, saveUser, error })
 });
 
-/* SIGN IN pour connexion User*/
+/* SIGN IN pour connexion User*/ 
+//Modification user res.json uniquement s'il c'est connecte
 
 router.post('/sign-in', async function (req, res) {
   let result = false;
   let error = [];
-  let token = ''
 
   var user = await userModel.findOne({ email: req.body.emailFromFront })
 
-  console.log(req.body.passwordFromFront + 'test')
-  console.log(req.body.emailFromFront + 'test')
-
-  if (user) {
+  if (user && !user.googleConnect) {
     if (bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
       result = true
-      token = user.token
     } else {
       error.push("Tu t'es trompé de Mot de Passe !");
     }
+  } else if (user && user.googleConnect) {
+    error.push('Joueur deja inscrit avec Google');
   } else {
     if (!req.body.passwordFromFront || !req.body.emailFromFront) {
       error.push('Merci de remplir tous les champs');
-    } else {
+    } else{
       error.push("Joueur non existant, inscris toi vite !");
     }
 
   }
   res.json({ result, user, error })
 });
+
+router.post('/google-connect', async function (req, res) {
+  let result= false
+  let infoConnect = 'Inscription'
+  let error =''
+
+  let email = req.body.email
+  let photoUrl = req.body.photoUrl
+  let pseudo = req.body.name
+
+  let user = await userModel.findOne({email: email})
+
+  if (user!=null && user.googleConnect){ //juste le connecter
+    
+    infoConnect='Connexion'
+    result=true
+
+  }else if (user==null){  //creer l'utilisateur en BDD
+    
+    var newUser = new userModel({
+      username: pseudo,
+      email: email,
+      token: uid2(32),
+      score: 0,
+      avatar: photoUrl,
+      googleConnect:true,
+    })
+
+    user = await newUser.save()
+    result=true
+
+  }else{
+
+    error = 'Joueur deja inscrit sans Google'
+
+  }
+
+  res.json({ result, infoConnect, user, error })
+})
 
 module.exports = router;
