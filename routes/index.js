@@ -193,4 +193,24 @@ router.get('/my-archive', async function (req, res) {
   }
 })
 
+router.delete('/delete-favorite/:identifiant/:token', async function(req, res, next){ 
+  var usersFavorite = await userModel.find({favoritePOI: req.params.identifiant})
+  var usersPoi = await userModel.find({POI: req.params.identifiant})
+
+  var user = await userModel.findOne({token: req.params.token})
+  var pos = user.favoritePOI.indexOf(req.params.identifiant)
+ 
+ if(usersFavorite.length >= 1 && usersPoi.length>0){
+   user.favoritePOI.splice(pos, 1)
+   await user.save()
+ }else {
+   user.favoritePOI.splice(pos, 1)
+   var favorite = await POIModel.deleteOne({_id: req.params.identifiant})
+   await user.save()
+ }
+ var myFavorite = await userModel.findOne({token: req.params.token}).populate('favoritePOI')
+ 
+   res.json( {result: true, myFavorite: myFavorite.favoritePOI} )
+ })
+
 module.exports = router;
