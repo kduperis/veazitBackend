@@ -10,7 +10,7 @@ var options = {
 }
 
 
-mongoose.connect("srv://chmick:Nd15091993*@cluster0.ojslq.mongodb.net/veazit?retryWrites=true&w=majority",
+mongoose.connect(process.env.BDD_URL,
     options,
     function (err) {
         if (err) {
