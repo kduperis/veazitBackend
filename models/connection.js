@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+import { BDD_PASSWORD } from '@env'
 
 var options = {
     connectTimeoutMS: 5000,
@@ -7,7 +8,7 @@ var options = {
 }
 
 
-mongoose.connect(process.env.BDD_URL,
+mongoose.connect(process.env.mongodb + `srv://chmick:${BDD_PASSWORD}@cluster0.ojslq.mongodb.net/veazit?retryWrites=true&w=majority`,
     options,
     function (err) {
         if (err) {
