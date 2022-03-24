@@ -1,8 +1,8 @@
 var mongoose = require('mongoose')
 
 POISchema = mongoose.Schema({
-    longitude: Number,
     latitude: Number,
+    longitude: Number,
     title: String,
     description: String,
     image: String,

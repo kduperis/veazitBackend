@@ -38,8 +38,9 @@ router.post('/sign-up', async function (req, res) {
         password: hashPassword,
         token: uid2(32),
         score: 0,
-        googleConnect: false,
-        avatar: 'https://res.cloudinary.com/dualrskkc/image/upload/v1646813911/veazit/unknown_lgsmmw.jpg'
+        apparence:false,
+        googleConnect:false,
+        avatar: 'https://res.cloudinary.com/dualrskkc/image/upload/v1646863162/veazit/anonymous_ra8ndn.png'
       })
 
       var saveUser = await newUser.save()
@@ -109,7 +110,8 @@ router.post('/google-connect', async function (req, res) {
       token: uid2(32),
       score: 0,
       avatar: photoUrl,
-      googleConnect: true,
+      googleConnect:true,
+      apparence:false,
     })
 
     user = await newUser.save()
