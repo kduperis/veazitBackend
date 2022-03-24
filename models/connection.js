@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-import { BDD_PASSWORD } from '@env'
+
 
 var options = {
     connectTimeoutMS: 5000,
