@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
 
+import { BDD_PASSWORD } from '@env'
+var mongoose = require('mongoose');
 
 
 var options = {
