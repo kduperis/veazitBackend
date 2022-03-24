@@ -1,5 +1,5 @@
 
-import { BDD_PASSWORD } from '@env'
+
 var mongoose = require('mongoose');
 
 
@@ -10,7 +10,7 @@ var options = {
 }
 
 
-mongoose.connect(`srv://chmick:${BDD_PASSWORD}@cluster0.ojslq.mongodb.net/veazit?retryWrites=true&w=majority`,
+mongoose.connect("srv://chmick:Nd15091993*@cluster0.ojslq.mongodb.net/veazit?retryWrites=true&w=majority",
     options,
     function (err) {
         if (err) {
