@@ -6,4 +6,6 @@ body {
 
 .message {
   color: #06D4B6;
+  justify-content: center;
+  align-items: center;
 }
