@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-
+//Création d'un schéma pour les POI
 POISchema = mongoose.Schema({
     latitude: Number,
     longitude: Number,

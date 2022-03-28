@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-
+//Création d'un schéma pour les badges
 badgeSchema = mongoose.Schema({
     title: String,
     description: String,

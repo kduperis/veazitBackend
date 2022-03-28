@@ -6,7 +6,6 @@ var uid2 = require('uid2');
 var userModel = require('../models/users')
 
 /* SIGN UP pour enregistrement New User*/
-
 router.post('/sign-up', async function (req, res) {
 
   var error = []
@@ -38,34 +37,27 @@ router.post('/sign-up', async function (req, res) {
         password: hashPassword,
         token: uid2(32),
         score: 0,
-        apparence:false,
-        googleConnect:false,
+        apparence: false,
+        googleConnect: false,
         avatar: 'https://res.cloudinary.com/dualrskkc/image/upload/v1646863162/veazit/anonymous_ra8ndn.png'
       })
 
       var saveUser = await newUser.save()
       result = true;
     }
-
   } else {
-
     error.push('Veuillez indiquer un mail')
-
   }
-
-
   res.json({ result, saveUser, error })
 });
 
 /* SIGN IN pour connexion User*/
-//Modification user res.json uniquement s'il c'est connecte
-
+//Modification user res.json uniquement s'il c'est connecté
 router.post('/sign-in', async function (req, res) {
   let result = false;
   let error = [];
 
   var user = await userModel.findOne({ email: req.body.emailFromFront })
-
 
   if (user && !user.googleConnect) {
     if (bcrypt.compareSync(req.body.passwordFromFront, user.password)) {
@@ -86,6 +78,8 @@ router.post('/sign-in', async function (req, res) {
   res.json({ result, user, error })
 });
 
+//Sign-in Sign-up d'un user via google
+//cet user ne possède pas de password
 router.post('/google-connect', async function (req, res) {
   let result = false
   let infoConnect = 'Inscription'
@@ -110,19 +104,16 @@ router.post('/google-connect', async function (req, res) {
       token: uid2(32),
       score: 0,
       avatar: photoUrl,
-      googleConnect:true,
-      apparence:false,
+      googleConnect: true,
+      apparence: false,
     })
 
     user = await newUser.save()
     result = true
 
   } else {
-
     error = 'Joueur deja inscrit sans Google'
-
   }
-
   res.json({ result, infoConnect, user, error })
 })
 
